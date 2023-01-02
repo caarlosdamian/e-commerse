@@ -1,30 +1,49 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { List } from "../../components/list/List";
+import { useFetch } from "../../hooks/useFetch";
 import "./Products.scss";
 
 export const Products = () => {
   const catId = parseInt(useParams().id || "");
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [selectedSubCats, setSelectedSubCats] = useState<string[] | never[]>(
+    []
+  );
   const [sort, setSort] = useState<string | null>(null);
+
+  const { data } = useFetch(
+    `/sub-categories?[filters][categories][id][$eq]=${catId}`
+  );
+
+  const handlechange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.checked);
+    const value = e.target.value;
+    const isChecked = e.target.checked;
+    setSelectedSubCats(
+      isChecked
+        ? [...selectedSubCats, value]
+        : selectedSubCats.filter((item) => item !== value)
+    );
+  };
 
   return (
     <div className="products">
       <div className="left">
         <div className="filterItem">
           <h2>Product Categories</h2>
-          <div className="inputItem">
-            <input type="checkbox" name="" id="1" value={1} />
-            <label htmlFor="1">Shoes</label>
-          </div>
-          <div className="inputItem">
-            <input type="checkbox" name="" id="2" value={2} />
-            <label htmlFor="1">Skirts</label>
-          </div>
-          <div className="inputItem">
-            <input type="checkbox" name="" id="3" value={3} />
-            <label htmlFor="1">Coats</label>
-          </div>
+          {data.map((item: any) => (
+            <div className="inputItem" key={item.id}>
+              <input
+                type="checkbox"
+                name=""
+                id={item.id}
+                value={item.id}
+                onChange={handlechange}
+              />
+              <label htmlFor={item.id}>{item.attributes.title}</label>
+            </div>
+          ))}
         </div>
         <div className="filterItem">
           <h2>Filter by price</h2>
@@ -71,7 +90,12 @@ export const Products = () => {
           src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
           alt=""
         />
-        <List catId={catId} maxPrice={maxPrice} sort={sort} />
+        <List
+          catId={catId}
+          maxPrice={maxPrice}
+          sort={sort}
+          subCats={selectedSubCats}
+        />
       </div>
     </div>
   );
