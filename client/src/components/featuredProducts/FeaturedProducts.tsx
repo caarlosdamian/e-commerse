@@ -27,7 +27,9 @@ export const FeaturedProducts = ({ type }: featuredProductsI) => {
         {loading && !error ? (
           <span>Loading...</span>
         ) : (
-          data.map(({ attributes, id }) => <Card key={id} item={attributes} />)
+          data.map(({ attributes, id }: any) => (
+            <Card key={id} id={id} item={attributes} />
+          ))
         )}
       </div>
     </div>

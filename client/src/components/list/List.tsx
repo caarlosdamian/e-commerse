@@ -19,7 +19,7 @@ export const List = ({ catId, maxPrice, sort, subCats }: ListProps) => {
   return (
     <div className="list">
       {data?.map((item: any) => (
-        <Card item={item.attributes} key={item.id} />
+        <Card id={item.id} item={item.attributes} key={item.id} />
       ))}
     </div>
   );
