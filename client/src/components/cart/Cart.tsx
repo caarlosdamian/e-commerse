@@ -6,7 +6,7 @@ import { removeItem, resetCart } from "../../redux/cartReducer";
 
 export const Cart = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector((state: any) => state.cart);
+  const { products } = useSelector((state: any) => state.persistedReducer.cart);
   const total =
     products.length !== 0 &&
     products?.reduce(

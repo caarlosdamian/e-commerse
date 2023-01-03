@@ -27,7 +27,7 @@ const cartReducer = createSlice({
         });
       }
     },
-    removeItem: (state: any, action) => {
+    removeItem: (state: any, action:any) => {
       state.products = state.products.filter(
         (item: any) => item.id !== action.payload
       );

@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { products } = useSelector((state: any) => state.cart);
+  const { products } = useSelector((state: any) => state.persistedReducer.cart);
   return (
     <div className="navbar">
       <div className="wrapper">
